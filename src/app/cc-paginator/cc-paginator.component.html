@@ -12,7 +12,7 @@
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
     </li>
     <li [class.active]="pager.CurrentPage === page" (click)="setPage(page)" class="pages" [class.hide]="disablePageBtns === true" *ngFor="let page of pager.Pages" title="{{page}}">
-        {{page}}
+        <span>{{page}}</span>
     </li>
     <li *ngIf="disablePageBtns === true">
       <select (change)="pageOnSelect($event)" *ngIf="disablePageBtns === true">
