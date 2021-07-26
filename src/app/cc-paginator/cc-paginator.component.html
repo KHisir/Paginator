@@ -3,7 +3,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
 
-<div id="wrapper" [class.bordered]="bordered === true" #wrapper>
+<div id="p-wrapper" [class.bordered]="bordered === true" #wrapper>
   <ul>
     <li [class.disabled]="pager.CurrentPage === 1" (click)="setPage(1)" title="First">
         <i class="fa fa-step-backward" aria-hidden="true"></i>
