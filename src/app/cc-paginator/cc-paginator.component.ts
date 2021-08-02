@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewInit, ElementRef, HostListener, Output, ViewChild } from '@angular/core';
+import { ElementRef, HostListener, Output, ViewChild } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
@@ -10,14 +10,24 @@ import { PaginatorService } from './service/paginator.service';
   templateUrl: './cc-paginator.component.html',
   styleUrls: ['./cc-paginator.component.scss']
 })
-export class CcPaginatorComponent implements OnInit, AfterViewInit, AfterContentChecked {
-
+export class CcPaginatorComponent implements OnInit {
+  private _length: number = 0;
+  
   @Output() page = new EventEmitter<Pager>();
-  @Input() length: number = 0;
   @Input() pageSize: number = 50;
   @Input() pageSizeOptions: number[] = [10, 25, 50, 100, 500];
   @Input() maxDisplayedTotalPages: number = 5;
   @Input() bordered: boolean = false;
+
+  @Input()
+  public set length(v: number) {
+    this._length = v;
+    this.pager = new Pager(this.pageSize, this.length, this.maxDisplayedTotalPages);
+    this.setPage(1, false);
+  }
+  public get length(): number {
+    return this._length;
+  }
 
   @ViewChild("wrapper") paginatorWrapper?: ElementRef;
 
@@ -34,20 +44,7 @@ export class CcPaginatorComponent implements OnInit, AfterViewInit, AfterContent
     this.pager = new Pager(this.pageSize, this.length, this.maxDisplayedTotalPages);
   }
 
-  ngOnInit() {
-    this.pager = new Pager(this.pageSize, this.length, this.maxDisplayedTotalPages);
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.setPage(1);
-    }, 300);
-    // this.setPage(1);
-  }
-
-  ngAfterContentChecked() {
-    // this.togglePages();
-  }
+  ngOnInit() {}
 
   togglePages(): void {
     if (this.paginatorWrapper !== undefined) {
@@ -74,14 +71,16 @@ export class CcPaginatorComponent implements OnInit, AfterViewInit, AfterContent
     this.totalElemWidth += this.pager.Pages.length * 40;
   }
 
-  setPage(page: number) {
+  setPage(page: number, callParent: boolean = true) {
     this.pager.CurrentPage = page;
 
     // get pager object from service
     this.pager = this.paginatorService.getPager(this.pager);
 
-    this.page.emit(this.pager);
-
+    if (callParent === true) {
+      this.page.emit(this.pager);
+    }
+    
     this.calculateTotalElemWidth();
     this.togglePages(); 
   }
