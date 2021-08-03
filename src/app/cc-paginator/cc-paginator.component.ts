@@ -19,11 +19,17 @@ export class CcPaginatorComponent implements OnInit {
   @Input() maxDisplayedTotalPages: number = 5;
   @Input() bordered: boolean = false;
 
+  lengthBefore: number = 0;
+
   @Input()
   public set length(v: number) {
     this._length = v;
-    this.pager = new Pager(this.pageSize, this.length, this.maxDisplayedTotalPages);
-    this.setPage(1, false);
+
+    if (this._length !== this.lengthBefore) {
+      this.lengthBefore = v;
+      this.pager = new Pager(this.pageSize, this.length, this.maxDisplayedTotalPages);
+      this.setPage(1, false);
+    }
   }
   public get length(): number {
     return this._length;
