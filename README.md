@@ -22,7 +22,7 @@ If you like my work, you can also support me with caffeine. I certainly drank ma
 
 # Documentation & Preview
 
-https://componentcollection.com/cc-components/ListView
+https://componentcollection.com/cc-components/Paginator
 
 ## Development server
 
