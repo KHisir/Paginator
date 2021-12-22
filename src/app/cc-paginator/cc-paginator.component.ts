@@ -53,6 +53,7 @@ export class CcPaginatorComponent implements OnInit {
   ngOnInit() {}
 
   togglePages(): void {
+    this.calculateTotalElemWidth();
     if (this.paginatorWrapper !== undefined) {
       if (this.totalElemWidth > this.paginatorWrapper.nativeElement.offsetWidth) {
         this.disablePageBtns = true;
